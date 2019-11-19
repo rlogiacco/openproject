@@ -1,14 +1,14 @@
+#!/bin/bash
 #-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -25,35 +25,22 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module Bcf::API::V2_1
-  class ProjectsAPI < ::API::OpenProjectAPI
-    resources :projects do
-      helpers do
-        def visible_projects
-          Project
-            .visible(current_user)
-            .has_module(:bcf)
-        end
-      end
+set -e
 
-      get &::Bcf::API::V2_1::Endpoints::Index.new(model: Project,
-                                                  scope: -> { visible_projects })
-                                             .mount
+run() {
+  echo $1;
+  eval $1;
 
-      route_param :id, regexp: /\A(\d+)\z/ do
-        after_validation do
-          @project = visible_projects
-                     .find(params[:id])
-        end
+  echo $2;
+  eval $2;
+}
 
-        get &::Bcf::API::V2_1::Endpoints::Show.new(model: Project).mount
-        put &::Bcf::API::V2_1::Endpoints::Update.new(model: Project).mount
+if [ -z "$DANGER_GITHUB_API_TOKEN" ]; then
+  echo "WARNING: Missing Dangerfile token. Dangerfile cannot be executed without it!"
+else
+  run "bundle exec danger --fail-on-errors=true"
+fi
 
-        mount Bcf::API::V2_1::TopicsAPI
-      end
-    end
-  end
-end
