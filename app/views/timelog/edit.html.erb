@@ -43,6 +43,19 @@ See docs/COPYRIGHT.rdoc for more details.
     <%= f.text_field :spent_on, size: 10, required: true, container_class: '-xslim', class: '-augmented-datepicker' %>
   </div>
 
+  <% if User.current.allowed_to? :log_costs, @project %>
+    <div class="form--field">
+    <%# Without knowing why `prompt` is in this case responsible for no blank line in the selection options %>
+      <%= f.select :user_id,
+                    user_collection_for_select_options,
+                    required: true,
+                    prompt: true,
+                    container_class: '-middle' %>
+    </div>
+  <% else %>
+    <%= f.hidden_field :user_id, value: User.current.id %>
+  <% end %>
+
   <div class="form--field -required">
     <%= f.text_field :hours, size: 6, required: true, container_class: '-xslim', class: '-number' %>
   </div>
