@@ -47,12 +47,32 @@ module Pages::Meetings
     end
 
     def expect_invited(*users)
-      users.map(&:name).sort.join('; ')
+      users.each do |user|
+        within(".meeting.details") do
+          expect(page)
+            .to have_link(user.name)
+        end
+      end
+    end
+
+    def expect_uninvited(*users)
+      users.each do |user|
+        within(".meeting.details") do
+          expect(page)
+            .to have_no_link(user.name)
+        end
+      end
     end
 
     def expect_date_time(expected)
       expect(page)
         .to have_content("Time: #{expected}")
+    end
+
+    def click_edit
+      within '.meeting--main-toolbar .toolbar-items' do
+        click_link 'Edit'
+      end
     end
 
     def path

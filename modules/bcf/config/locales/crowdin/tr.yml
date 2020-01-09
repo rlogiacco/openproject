@@ -65,3 +65,19 @@ tr:
     scopes:
       bcf_v2_1: "BCF v2.1 API'sine tam erişim"
       bcf_v2_1_text: "Uygulama, sizin adınıza işlem yapmak için OpenProject BCF API v2.1'e tam okuma ve yazma erişimi alacaktır."
+  activerecord:
+    errors:
+      models:
+        bcf/viewpoint:
+          bitmaps_not_writable: "bitmap'ler henüz uygulanmadığı için yazılamaz."
+          index_not_integer: "dizin bir tamsayı değil."
+          invalid_clipping_planes: "kırpma düzlemleri geçersiz."
+          invalid_components: "bileşenler geçersiz."
+          invalid_lines: "satırları geçersiz."
+          invalid_orthogonal_camera: "dikey kamera geçersiz."
+          invalid_perspective_camera: "perspektif kamera geçersiz."
+          mismatching_guid: "Json bakış açısındaki kılavuz, kılavuzun modelleri ile eşleşmiyor."
+          no_json: "İyi yapılandırılmış bir json değil."
+          snapshot_type_unsupported: "anlık görüntü türünün 'png' veya 'jpg' olması gerekir."
+          snapshot_data_blank: "anlık görüntü verilerinin sağlanması gerekir."
+          unsupported_key: "Desteklenmeyen bir json özelliği dahil edilmiştir."

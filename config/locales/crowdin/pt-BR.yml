@@ -66,7 +66,39 @@ pt-BR:
       no_results_content_title: Atualmente, não existem modos de autenticação.
       no_results_content_text: Criar um novo modo de autenticação
   ldap_auth_sources:
+    technical_warning_html: |
+      Este formulário LDAP requer conhecimento técnico da sua configuração LDAP / Active Directory.
+      <br/>
+      <a href="https://www.openproject.org/help/administration/manage-ldap-authentication/">Por favor, visite nossa documentação para instruções detalhadas</a>.
+    attribute_texts:
+      name: Nome arbitrário da conexão LDAP
+      host: Nome ou endereço IP do host LDAP
+      login_map: A chave de atributo no LDAP que é usada para identificar o login único. Normalmente, será `uid` ou `samAccountName`.
+      generic_map: A chave de atributo no LDAP que é mapeada para o atributo `%{attribute}` do OpenProject
+      admin_map_html: "Opcional: A chave de atributo no LDAP que <strong> se presente </strong> marca o usuário do OpenProject como administrador. Deixe vazio se estiver em dúvida."
+      system_user_dn_html: |
+        Digite o DN do usuário do sistema usado para acesso somente leitura.
+        <br/>
+        Exemplo: uid=openproject,ou=system,dc=example,dc=com
+      system_user_password: Digite a senha de vinculação do usuário do sistema
+      base_dn: |
+        Digite a Base DN da subárvore no LDAP que você quer que o OpenProject procure por usuários e grupos.
+        O OpenProject irá filtrar os nomes de usuários fornecidos apenas nesta subárvore.
+        Exemplo: ou=users,dc=example,dc=com
+      onthefly_register: |
+        Se você marcar esta caixa, o OpenProject irá automaticamente criar novos usuários a partir de suas entradas LDAP
+        quando eles forem autenticados pela primeira vez com o OpenProject.
+        Deixe isso desmarcado para permitir que apenas contas existentes no OpenProject possam se autenticar através do LDAP!
     connection_encryption: 'Criptografia de Conexão'
+    system_account: 'Conta do sistema'
+    system_account_legend: |
+      OpenProject requer acesso somente leitura através de uma conta de sistema para procurar usuários e grupos em sua árvore LDAP.
+      Por favor, especifique as credenciais para esse usuário do sistema na seguinte seção.
+    ldap_details: 'Detalhes do LDAP'
+    user_settings: 'Mapeamento de atributo'
+    user_settings_legend: |
+      Os seguintes campos tem relação com como os usuários são criados no OpenProject a partir de entradas LDAP e
+      quais atributos LDAP são usados para definir os atributos de um usuário OpenProject (mapeamento de atributos).
     tls_mode:
       plain: 'nenhum'
       simple_tls: 'simples_tls'
@@ -446,7 +478,7 @@ pt-BR:
         could_not_be_copied: "não pode ser copiado (totalmente)."
         does_not_exist: "não existe."
         error_unauthorized: "não pode ser acessado."
-        error_readonly: "não é gravável."
+        error_readonly: "tentou escrever, mas não é gravável."
         empty: "não pode ser vazio."
         even: "deve ser par."
         exclusion: "está reservado."
@@ -978,7 +1010,7 @@ pt-BR:
         add_groups: "Adicionar novos grupos de atributos"
         rename_groups: "Renomear grupos de atributos"
       project_filters:
-        description_html: "Filtering and sorting on custom fields is an enterprise edition feature."
+        description_html: "Filtrar e ordenar em campos personalizados é um recurso da edição empresarial."
   enumeration_activities: "Atividades (controle de tempo)"
   enumeration_work_package_priorities: "Prioridades do pacote de trabalho"
   enumeration_system_activity: "Atividade do Sistema"
@@ -1891,6 +1923,7 @@ pt-BR:
       title: Alterar o identificador do projeto
     archive:
       are_you_sure: "Tem certeza de que deseja arquivar o projeto '%{name}'?"
+      archived: "Arquivado"
   project_module_activity: "Atividade"
   project_module_forums: "Fóruns"
   project_module_calendar: "Calendário"
@@ -2196,7 +2229,8 @@ pt-BR:
   text_work_package_category_destroy_question: "Alguns pacotes de trabalho (%{count}) estão atribuídos a esta categoria. O que você quer fazer?"
   text_work_package_category_reassign_to: "Reatribuir pacotes de trabalho para esta categoria"
   text_work_package_updated: "Pacote de trabalho %{id} foi atualizado por %{author}."
-  text_work_package_watcher_added: "Você foi adicionado como um observador do pacote de trabalho %{id} por %{watcher_setter}."
+  text_work_package_watcher_added: "Você foi adicionado como um observador do pacote de trabalho %{id} por %{watcher_changer}."
+  text_work_package_watcher_removed: "Você foi removido dos observadores do pacote de trabalho %{id} por %{watcher_changer}."
   text_work_packages_destroy_confirmation: "Tem certeza que deseja excluir o(s) pacote(s) de trabalho selecionado(s)?"
   text_work_packages_ref_in_commit_messages: "Referenciando e corrigindo pacotes de trabalho nas mensagens de commit"
   text_journal_added: "%{label} %{value}  adicionado"
@@ -2527,7 +2561,9 @@ pt-BR:
         estimated_hours: "Número estimado de horas não pode ser definido em pacotes de trabalho pai."
         invalid_user_assigned_to_work_package: "O usuário selecionado não tem permissão de '%{property}' neste pacote de trabalho."
         start_date: "Data de início não pode ser definida no pacote de trabalho pai."
-      writing_read_only_attributes: "Você não pode escrever um atributo somente leitura."
+      eprops:
+        invalid_gzip: "é gzip inválido: %{message}"
+        invalid_json: "é json inválido: %{message}"
     resources:
       schema: 'Esquema'
   doorkeeper:
@@ -2575,7 +2611,7 @@ pt-BR:
         redirect_uri_html: >
           As URLs permitidas dos usuários autorizados podem ser redirecionadas para. Uma entrada por linha. <br/> Se você estiver registrando uma aplicação desktop, use a seguinte URL.
         confidential: "Verifique se a aplicação será usada onde o segredo do cliente pode ser mantido em sigilo. Apps móveis nativos e aplicativos de página única são considerados não confidenciais."
-        scopes: "Check the scopes you want the application to grant access to. If no scope is checked, api_v3 is assumed."
+        scopes: "Verifique os escopos que você quer que a aplicação conceda acesso. Se nenhum escopo estiver marcado, api_v3 é assumido."
         client_credential_user_id: "ID de usuário usado como representante quando os clientes usam esta aplicação. Deixe em branco para permitir apenas o acesso público"
         register_intro: "Se você estiver desenvolvendo uma aplicação cliente da API OAuth do OpenProject, poderá registrá-la usando este formulário para ser usada por todos os usuários."
         default_scopes: ""
@@ -2590,8 +2626,8 @@ pt-BR:
       wants_to_access_html: >
         Esta aplicação solicita acesso à sua conta OpenProject. <br/> <strong>Ela solicitou as seguintes permissões:</strong>
     scopes:
-      api_v3: "Full API v3 access"
-      api_v3_text: "Application will receive full read & write access to the OpenProject API v3 to perform actions on your behalf."
+      api_v3: "Acesso completo a API v3"
+      api_v3_text: "A aplicação receberá acesso total de leitura e escrita a API v3 do OpenProject para executar ações em seu nome."
     grants:
       created_date: "Aprovado em"
       scopes: "Permissões"

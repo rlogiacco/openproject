@@ -32,8 +32,20 @@ describe Query, "manual sorting ", type: :model do
   shared_let(:user) { FactoryBot.create :admin }
   shared_let(:project) { FactoryBot.create :project }
   shared_let(:query) { FactoryBot.create :query, user: user, project: project }
-  shared_let(:wp_1) { FactoryBot.create :work_package, project: project }
-  shared_let(:wp_2) { FactoryBot.create :work_package, project: project }
+  shared_let(:wp_1) do
+    User.execute_as user do
+      FactoryBot.create :work_package, project: project
+    end
+  end
+  shared_let(:wp_2) do
+    User.execute_as user do
+      FactoryBot.create :work_package, project: project
+    end
+  end
+
+  before do
+    login_as user
+  end
 
   describe '#ordered_work_packages' do
     it 'keeps the current set of ordered work packages' do
@@ -57,7 +69,6 @@ describe Query, "manual sorting ", type: :model do
     let(:query2) { FactoryBot.create :query, user: user, project: project }
 
     before do
-      login_as user
       ::OrderedWorkPackage.create(query: query, work_package: wp_1, position: 0)
       ::OrderedWorkPackage.create(query: query, work_package: wp_2, position: 1)
 

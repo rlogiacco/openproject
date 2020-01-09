@@ -63,5 +63,21 @@ pt-BR:
   permission_manage_bcf: "Importar e gerenciar problemas do BCF"
   oauth:
     scopes:
-      bcf_v2_1: "Full access to the BCF v2.1 API"
-      bcf_v2_1_text: "Application will receive full read & write access to the OpenProject BCF API v2.1 to perform actions on your behalf."
+      bcf_v2_1: "Acesso total à API BCF v2.1"
+      bcf_v2_1_text: "A aplicação receberá acesso total de leitura e escrita a BCF API v2.1 do OpenProject para executar ações em seu nome."
+  activerecord:
+    errors:
+      models:
+        bcf/viewpoint:
+          bitmaps_not_writable: "bitmaps não é gravável pois ainda não está implementado."
+          index_not_integer: "o índice não é um inteiro."
+          invalid_clipping_planes: "clipping_planes é inválido."
+          invalid_components: "componentes inválidos."
+          invalid_lines: "linhas inválidas."
+          invalid_orthogonal_camera: "orthogonal_camera é inválido."
+          invalid_perspective_camera: "perspective_camera é inválida."
+          mismatching_guid: "O guid no json_viewpoint não coincide com o guid do modelo."
+          no_json: "Não é um json bem estruturado."
+          snapshot_type_unsupported: "snapshot_type precisa ser 'png' ou 'jpg'."
+          snapshot_data_blank: "snapshot_data precisa ser fornecida."
+          unsupported_key: "Uma propriedade json não suportada está incluída."

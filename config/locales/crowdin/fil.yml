@@ -66,7 +66,39 @@ fil:
       no_results_content_title: Sa kasalukuyan ay walang mga authentication mode.
       no_results_content_text: Gumawa ng bagong authentication mode
   ldap_auth_sources:
+    technical_warning_html: |
+      This LDAP form requires technical knowledge of your LDAP / Active Directory setup.
+      <br/>
+      <a href="https://www.openproject.org/help/administration/manage-ldap-authentication/">Please visit our documentation for detailed instructions</a>.
+    attribute_texts:
+      name: Arbitrary name of the LDAP connection
+      host: LDAP host name or IP address
+      login_map: The attribute key in LDAP that is used to identify the unique user login. Usually, this will be `uid` or `samAccountName`.
+      generic_map: The attribute key in LDAP that is mapped to the OpenProject `%{attribute}` attribute
+      admin_map_html: "Optional: The attribute key in LDAP that <strong>if present</strong> marks the OpenProject user an admin. Leave empty when in doubt."
+      system_user_dn_html: |
+        Enter the DN of the system user used for read-only access.
+        <br/>
+        Example: uid=openproject,ou=system,dc=example,dc=com
+      system_user_password: Enter the bind password of the system user
+      base_dn: |
+        Enter the Base DN of the subtree in LDAP you want OpenProject to look for users and groups.
+        OpenProject will filter for provided usernames in this subtree only.
+        Example: ou=users,dc=example,dc=com
+      onthefly_register: |
+        If you check this box, OpenProject will automatically create new users from their LDAP entries
+        when they first authenticate with OpenProject.
+        Leave this unchecked to only allow existing accounts in OpenProject to authenticate through LDAP!
     connection_encryption: 'Connection encryption'
+    system_account: 'System account'
+    system_account_legend: |
+      OpenProject requires read-only access through a system account to lookup users and groups in your LDAP tree.
+      Please specify the bind credentials for that system user in the following section.
+    ldap_details: 'LDAP details'
+    user_settings: 'Attribute mapping'
+    user_settings_legend: |
+      The following fields are related to how users are created in OpenProject from LDAP entries and
+      what LDAP attributes are used to define the attributes of an OpenProject user (attribute mapping).
     tls_mode:
       plain: 'wala'
       simple_tls: 'simple_tls'
@@ -447,7 +479,7 @@ fil:
         could_not_be_copied: "dapat hindi masyado kinopya ang lahat."
         does_not_exist: "hindi umiiral."
         error_unauthorized: "may not be accessed."
-        error_readonly: "is not writable."
+        error_readonly: "was attempted to be written but is not writable."
         empty: "hindi pwedeng blanko."
         even: "dapat ay kapareho."
         exclusion: "ay nakareserba."
@@ -1892,6 +1924,7 @@ fil:
       title: Baguhin ang mga pagkakilanlan ng proyekto
     archive:
       are_you_sure: "Sigurado ka bang na gusto mong i-archive ang proyekto'%{name}'?"
+      archived: "Archived"
   project_module_activity: "Aktibidad"
   project_module_forums: "Mga forum"
   project_module_calendar: "Kalendaryo"
@@ -2195,7 +2228,8 @@ fil:
   text_work_package_category_destroy_question: "May mga ibang work package (%{count}) ay nakatakaga sa kategoryang ito. Ano gusto mong gawin?"
   text_work_package_category_reassign_to: "Magtalaga ulit ng mga work package para sa kategoryang ito"
   text_work_package_updated: "Ang work package %{id} ay naka-update na sab%{author}."
-  text_work_package_watcher_added: "Ikaw ay dinagdag bilang watcher sa Work package %{id} ng %{watcher_setter}."
+  text_work_package_watcher_added: "You have been added as a watcher to Work package %{id} by %{watcher_changer}."
+  text_work_package_watcher_removed: "You have been removed from watchers of Work package %{id} by %{watcher_changer}."
   text_work_packages_destroy_confirmation: "Sigurado ka ba na gusto mong burahin ang napiling work package?"
   text_work_packages_ref_in_commit_messages: "Pagsangguni at pagsaayos ng work package sa mga isinagawang mensahe"
   text_journal_added: "%{label}%{value} idinagdag"
@@ -2527,7 +2561,9 @@ fil:
         estimated_hours: "Itinayang mga oras ay hindi mai-set sa mga package ng gawain ng magulang."
         invalid_user_assigned_to_work_package: "Ang piniling gumagamit ay hindi pinahihintulan sa '%{property}' na para sa package ng gawain ng magulang."
         start_date: "Sinimulang petsa ay hindi mai-set sa mga pakete ng gawain ng magulang."
-      writing_read_only_attributes: "Ikaw ay hindi pwedeng sumulat ng isang katangiang basa-lang."
+      eprops:
+        invalid_gzip: "is invalid gzip: %{message}"
+        invalid_json: "is invalid json: %{message}"
     resources:
       schema: 'Iskema'
   doorkeeper:

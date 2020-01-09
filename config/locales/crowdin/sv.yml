@@ -66,7 +66,39 @@ sv:
       no_results_content_title: Det finns för närvarande inga autentiseringslägen.
       no_results_content_text: Skapa ett nytt autentiseringsläge
   ldap_auth_sources:
+    technical_warning_html: |
+      This LDAP form requires technical knowledge of your LDAP / Active Directory setup.
+      <br/>
+      <a href="https://www.openproject.org/help/administration/manage-ldap-authentication/">Please visit our documentation for detailed instructions</a>.
+    attribute_texts:
+      name: Arbitrary name of the LDAP connection
+      host: LDAP host name or IP address
+      login_map: The attribute key in LDAP that is used to identify the unique user login. Usually, this will be `uid` or `samAccountName`.
+      generic_map: The attribute key in LDAP that is mapped to the OpenProject `%{attribute}` attribute
+      admin_map_html: "Optional: The attribute key in LDAP that <strong>if present</strong> marks the OpenProject user an admin. Leave empty when in doubt."
+      system_user_dn_html: |
+        Enter the DN of the system user used for read-only access.
+        <br/>
+        Example: uid=openproject,ou=system,dc=example,dc=com
+      system_user_password: Enter the bind password of the system user
+      base_dn: |
+        Enter the Base DN of the subtree in LDAP you want OpenProject to look for users and groups.
+        OpenProject will filter for provided usernames in this subtree only.
+        Example: ou=users,dc=example,dc=com
+      onthefly_register: |
+        If you check this box, OpenProject will automatically create new users from their LDAP entries
+        when they first authenticate with OpenProject.
+        Leave this unchecked to only allow existing accounts in OpenProject to authenticate through LDAP!
     connection_encryption: 'Connection encryption'
+    system_account: 'System account'
+    system_account_legend: |
+      OpenProject requires read-only access through a system account to lookup users and groups in your LDAP tree.
+      Please specify the bind credentials for that system user in the following section.
+    ldap_details: 'LDAP details'
+    user_settings: 'Attribute mapping'
+    user_settings_legend: |
+      The following fields are related to how users are created in OpenProject from LDAP entries and
+      what LDAP attributes are used to define the attributes of an OpenProject user (attribute mapping).
     tls_mode:
       plain: 'inga'
       simple_tls: 'simple_tls'
@@ -83,7 +115,7 @@ sv:
     index:
       no_results_title_text: För närvarande finns det inga färger.
       no_results_content_text: Skapa en ny färg
-    label_no_color: 'No color'
+    label_no_color: 'Ingen färg'
   custom_actions:
     actions:
       name: 'Åtgärder'
@@ -130,11 +162,11 @@ sv:
   projects:
     delete:
       scheduled: "Deletion has been scheduled and is perfomed in the background. You will be notified of the result."
-      schedule_failed: "Project cannot be deleted: %{errors}"
-      failed: "Deletion of project %{name} has failed"
-      failed_text: "The request to delete project %{name} has failed. The project was left archived."
-      completed: "Deletion of project %{name} completed"
-      completed_text: "The request to delete project '%{name}' has been completed."
+      schedule_failed: "Projektet kan inte tas bort: %{errors}"
+      failed: "Borttagning av projekt %{name} misslyckades"
+      failed_text: "Begäran om att ta bort projekt %{name} misslyckades. Projektet lämnades arkiverat."
+      completed: "Borttagning av projekt %{name} slutfört"
+      completed_text: "Begäran om att ta bort projekt '%{name}' har slutförts."
     index:
       no_results_title_text: Det finns för närvarande inga projekt
       no_results_content_text: Skapa ett nytt projekt
@@ -286,7 +318,7 @@ sv:
         filesize: "Filstorlek"
       attribute_help_text:
         attribute_name: 'Attributet'
-        help_text: 'Help text'
+        help_text: 'Hjälptext'
       auth_source:
         account: "Konto"
         attr_firstname: "Förnamnsattribut"
@@ -397,7 +429,7 @@ sv:
         auto_hide_popups: "Dölj automatiskt meddelanden om åtgärder som lyckats"
         warn_on_leaving_unsaved: "Varna mig när jag lämnar ett arbetspaket med osparade ändringar"
       version:
-        effective_date: "Finish date"
+        effective_date: "Slutdatum"
         sharing: "Delas"
       wiki_content:
         text: "Text"
@@ -447,7 +479,7 @@ sv:
         could_not_be_copied: "kunde inte (fullständigt) kopieras."
         does_not_exist: "finns inte."
         error_unauthorized: "may not be accessed."
-        error_readonly: "is not writable."
+        error_readonly: "was attempted to be written but is not writable."
         empty: "kan inte vara tomt."
         even: "måste vara jämn."
         exclusion: "är reserverat."
@@ -458,7 +490,7 @@ sv:
         greater_than_start_date: "måste vara senare än startdatumet."
         inclusion: "inte är inställd på ett av de tillåtna värdena."
         invalid: "är ogiltig."
-        invalid_url: 'is not a valid URL.'
+        invalid_url: 'är inte ett giltigt URL.'
         invalid_url_scheme: 'is not a supported protocol (allowed: %{allowed_schemes}).'
         less_than_or_equal_to: "måste vara mindre än eller lika med %{count}."
         not_a_date: "är inte är ett giltigt datum."
@@ -492,16 +524,16 @@ sv:
           attributes:
             redirect_uri:
               fragment_present: 'cannot contain a fragment.'
-              invalid_uri: 'must be a valid URI.'
+              invalid_uri: 'måste vara en giltig URI.'
               relative_uri: 'must be an absolute URI.'
               secured_uri: 'must be an HTTPS/SSL URI.'
-              forbidden_uri: 'is forbidden by the server.'
+              forbidden_uri: 'är förbjudet av servern.'
             scopes:
               not_match_configured: "doesn't match available scopes."
         enterprise_token:
           unreadable: "kan inte läsas. Är du säker på att det är en support-nyckel?"
         grids/grid:
-          overlaps: 'overlap.'
+          overlaps: 'överlappar.'
           outside: 'is outside of the grid.'
           end_before_start: 'end value needs to be larger than the start value.'
         parse_schema_filter_params_service:
@@ -663,7 +695,7 @@ sv:
     default_columns: "Standardkolumnerna"
     description: "Beskrivning"
     display_sums: "Visa summor"
-    due_date: "Finish date"
+    due_date: "Slutdatum"
     estimated_hours: "Beräknad tid"
     estimated_time: "Beräknad tid"
     firstname: "Förnamn"
@@ -1892,6 +1924,7 @@ sv:
       title: Ändra projektets identifierare
     archive:
       are_you_sure: "Är du säker på att du vill arkivera projektet '%{name}'?"
+      archived: "Archived"
   project_module_activity: "Aktivitet"
   project_module_forums: "Forum"
   project_module_calendar: "Kalender"
@@ -2195,7 +2228,8 @@ sv:
   text_work_package_category_destroy_question: "Vissa arbetspaket (%{count}) har tilldelas till denna kategori. Vad vill du göra?"
   text_work_package_category_reassign_to: "Tilldela arbetspaket till denna kategori"
   text_work_package_updated: "Arbetspaketet %{id} har uppdaterats av %{author}."
-  text_work_package_watcher_added: "%{watcher_setter} har lagt till dig som en bevakare av arbetspaket %{id}."
+  text_work_package_watcher_added: "You have been added as a watcher to Work package %{id} by %{watcher_changer}."
+  text_work_package_watcher_removed: "You have been removed from watchers of Work package %{id} by %{watcher_changer}."
   text_work_packages_destroy_confirmation: "Är du säker du vill ta bort det valda arbetspaket(paketen)?"
   text_work_packages_ref_in_commit_messages: "Referenser och fixande av arbetspaket i incheckningsmeddelanden"
   text_journal_added: "%{label} %{value} lades till"
@@ -2526,7 +2560,9 @@ sv:
         estimated_hours: "Beräknade timmar kan inte anges för överordnade arbetspaket."
         invalid_user_assigned_to_work_package: "Den valda användaren tillåts inte att vara \"%{property}\" för detta arbetspaket."
         start_date: "Startdatum kan inte anges för överordnade arbetspaket."
-      writing_read_only_attributes: "Du får inte skriva till ett skrivskyddat attribut."
+      eprops:
+        invalid_gzip: "is invalid gzip: %{message}"
+        invalid_json: "is invalid json: %{message}"
     resources:
       schema: 'Schema'
   doorkeeper:

@@ -66,7 +66,39 @@ tr:
       no_results_content_title: Şu anda bir doğrulama modu bulunmamakta.
       no_results_content_text: Yeni bir doğrulama modu oluştur
   ldap_auth_sources:
+    technical_warning_html: |
+      Bu LDAP formu, LDAP / Active Directory kurulumunuz hakkında teknik bilgi gerektirir.
+      <br/>
+      <a href="https://www.openproject.org/help/administration/manage-ldap-authentication/"> Lütfen ayrıntılı talimatlar için belgelerimizi ziyaret edin </a>.
+    attribute_texts:
+      name: LDAP bağlantısının keyfi adı
+      host: LDAP ana bilgisayar adı veya IP adresi
+      login_map: LDAP’deki benzersiz kullanıcı girişini tanımlamak için kullanılan özellik anahtarı. Genelde bu, 'uid' veya 'samAccountName' olacaktır.
+      generic_map: LDAP'de, OpenProject `%{attribute}` niteliğiyle eşlenen özellik anahtarı
+      admin_map_html: "İsteğe bağlı: LDAP'daki, <strong> varsa </strong> OpenProject kullanıcısına bir yönetici işaretleyen özellik anahtarı. Şüphe duyduğunuzda boş bırakın."
+      system_user_dn_html: |
+        Salt okunur erişim için kullanılan sistem kullanıcısının DN'sini girin.
+        <br/>
+        Örnek: uid = openproject, ou = sistem, dc = örnek, dc = com
+      system_user_password: Sistem kullanıcısının cilt şifresini girin
+      base_dn: |
+        LDAP'da, OpenProject'in kullanıcıları ve grupları aramasını istediğiniz alt ağacın Temel DN'sini girin.
+        OpenProject yalnızca bu alt ağaçta belirtilen kullanıcı adlarını filtreleyecektir.
+        Örnek: ou = kullanıcılar, dc = örnek, dc = com
+      onthefly_register: |
+        Bu kutuyu işaretlerseniz, OpenProject otomatik olarak LDAP girişlerinden yeni kullanıcılar oluşturur
+        OpenProject ile ilk kimlik doğrulaması yaptıklarında.
+        Yalnızca OpenProject’deki mevcut hesapların LDAP üzerinden kimlik doğrulaması yapmasına izin vermek için işaretlenmemiş bırakın!
     connection_encryption: 'Bağlantı şifreleme'
+    system_account: 'Sistem hesabı'
+    system_account_legend: |
+      OpenProject, LDAP ağacınızdaki kullanıcıları ve grupları aramak için bir sistem hesabı üzerinden salt okunur erişim gerektirir.
+      Lütfen aşağıdaki bölümde bu sistem kullanıcısı için bağlama bilgilerini belirtin.
+    ldap_details: 'LDAP ayrıntıları'
+    user_settings: 'Öznitelik eşlemesi'
+    user_settings_legend: |
+      Aşağıdaki alanlar LDAP girişlerinden kullanıcıların OpenProject'te nasıl oluşturulduğuyla ilgilidir ve
+      OpenProject kullanıcısının niteliklerini tanımlamak için hangi LDAP niteliklerinin kullanıldığı (özellik eşlemesi).
     tls_mode:
       plain: 'hiçbiri'
       simple_tls: 'basit_tls'
@@ -447,7 +479,7 @@ tr:
         could_not_be_copied: "(tamamen) kopyalanamadı."
         does_not_exist: "mevcut değil."
         error_unauthorized: "erişilemez."
-        error_readonly: "yazılabilir değil."
+        error_readonly: "yazılmaya çalışıldı fakat yazılabilir değil."
         empty: "boş olamaz."
         even: "çift olmalı."
         exclusion: "ayrılmıştır."
@@ -1892,6 +1924,7 @@ tr:
       title: Projenin tanımlayıcısını değiştirme
     archive:
       are_you_sure: "'%{name}' projesini arşivlemek istediğinize emin misiniz?"
+      archived: "Arşivlenen"
   project_module_activity: "Etkinlik"
   project_module_forums: "Forumlar"
   project_module_calendar: "Takvim"
@@ -2197,7 +2230,8 @@ tr:
   text_work_package_category_destroy_question: "Bu kategoriye bazı iş paketleri ( %{count}) atanmıştır. Ne yapmak istiyorsun?"
   text_work_package_category_reassign_to: "İş paketlerini bu kategoriye yeniden ata"
   text_work_package_updated: "%{id} iş paketi %{author} tarafından güncellendi."
-  text_work_package_watcher_added: "İş Paketi %{id} takiplerine için %{watcher_setter} tarafından eklendiniz."
+  text_work_package_watcher_added: "%{id} tarafından %{watcher_changer}. Work paketine izleyici olarak eklendi"
+  text_work_package_watcher_removed: "%{id} tarafından %{watcher_changer}. Work paketi saatlerinden çıkarıldınız"
   text_work_packages_destroy_confirmation: "Seçilen çalışma paket(ler) ini silmek istediğinizden emin misiniz?"
   text_work_packages_ref_in_commit_messages: "İş paketlerini taahhüt mesajlarında referans ve sabitleme"
   text_journal_added: "%{value} %{label} eklendi"
@@ -2528,7 +2562,9 @@ tr:
         estimated_hours: "Tahmini saatler, ebeveyn çalışma paketlerinde ayarlanamaz."
         invalid_user_assigned_to_work_package: "Seçilen kullanıcının bu çalışma paketi için ' %{property} ' olması için izin verilmiyor."
         start_date: "Başlangıç ​​tarihi, üst çalışma paketlerinde ayarlanamaz."
-      writing_read_only_attributes: "Salt okunur bir nitelik yazmamalısınız."
+      eprops:
+        invalid_gzip: "geçersiz gzip: %{message}"
+        invalid_json: "geçersiz json: %{message}"
     resources:
       schema: 'Şema'
   doorkeeper:

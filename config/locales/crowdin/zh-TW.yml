@@ -66,7 +66,39 @@ zh-TW:
       no_results_content_title: 目前沒有身份驗證模式
       no_results_content_text: 建立新身分驗證模式
   ldap_auth_sources:
+    technical_warning_html: |
+      This LDAP form requires technical knowledge of your LDAP / Active Directory setup.
+      <br/>
+      <a href="https://www.openproject.org/help/administration/manage-ldap-authentication/">Please visit our documentation for detailed instructions</a>.
+    attribute_texts:
+      name: Arbitrary name of the LDAP connection
+      host: LDAP host name or IP address
+      login_map: The attribute key in LDAP that is used to identify the unique user login. Usually, this will be `uid` or `samAccountName`.
+      generic_map: The attribute key in LDAP that is mapped to the OpenProject `%{attribute}` attribute
+      admin_map_html: "Optional: The attribute key in LDAP that <strong>if present</strong> marks the OpenProject user an admin. Leave empty when in doubt."
+      system_user_dn_html: |
+        Enter the DN of the system user used for read-only access.
+        <br/>
+        Example: uid=openproject,ou=system,dc=example,dc=com
+      system_user_password: Enter the bind password of the system user
+      base_dn: |
+        Enter the Base DN of the subtree in LDAP you want OpenProject to look for users and groups.
+        OpenProject will filter for provided usernames in this subtree only.
+        Example: ou=users,dc=example,dc=com
+      onthefly_register: |
+        If you check this box, OpenProject will automatically create new users from their LDAP entries
+        when they first authenticate with OpenProject.
+        Leave this unchecked to only allow existing accounts in OpenProject to authenticate through LDAP!
     connection_encryption: 'Connection encryption'
+    system_account: 'System account'
+    system_account_legend: |
+      OpenProject requires read-only access through a system account to lookup users and groups in your LDAP tree.
+      Please specify the bind credentials for that system user in the following section.
+    ldap_details: 'LDAP details'
+    user_settings: 'Attribute mapping'
+    user_settings_legend: |
+      The following fields are related to how users are created in OpenProject from LDAP entries and
+      what LDAP attributes are used to define the attributes of an OpenProject user (attribute mapping).
     tls_mode:
       plain: '無'
       simple_tls: 'simple_tls'
@@ -446,7 +478,7 @@ zh-TW:
         could_not_be_copied: "無法 (完全) 複製"
         does_not_exist: "不存在"
         error_unauthorized: "may not be accessed."
-        error_readonly: "is not writable."
+        error_readonly: "was attempted to be written but is not writable."
         empty: "不可為空"
         even: "必須是偶數"
         exclusion: "已保留"
@@ -1870,6 +1902,7 @@ zh-TW:
       title: 修改專案的識別
     archive:
       are_you_sure: "是否確定要 archive 專案 '%{name}'？"
+      archived: "Archived"
   project_module_activity: "活動"
   project_module_forums: "論壇"
   project_module_calendar: "行事曆"
@@ -2175,7 +2208,8 @@ zh-TW:
   text_work_package_category_destroy_question: "一些工作項目(%{count})被分配給此類別。你想要做什麼？"
   text_work_package_category_reassign_to: "重新分配工作項目到這個類別"
   text_work_package_updated: "%{author} 更新了工作項目 %{id}。"
-  text_work_package_watcher_added: "你已經被 %{watcher_setter} 以觀察者的身份加入到工作項目 %{id}"
+  text_work_package_watcher_added: "You have been added as a watcher to Work package %{id} by %{watcher_changer}."
+  text_work_package_watcher_removed: "You have been removed from watchers of Work package %{id} by %{watcher_changer}."
   text_work_packages_destroy_confirmation: "你確定要刪除選定的工作項目嗎？"
   text_work_packages_ref_in_commit_messages: "在提交訊息中引用和修復工作項目"
   text_journal_added: "%{label} %{value} 已增加"
@@ -2505,7 +2539,9 @@ zh-TW:
         estimated_hours: "無法在所屬工作包上設置估計小時數。"
         invalid_user_assigned_to_work_package: "所指定的使用者不允許成為工作項目的 '%{property}' 。"
         start_date: "無法在所屬工作包上設置開始日期。"
-      writing_read_only_attributes: "You must not write a read-only attribute.\n您不可寫入唯讀的屬性。"
+      eprops:
+        invalid_gzip: "is invalid gzip: %{message}"
+        invalid_json: "is invalid json: %{message}"
     resources:
       schema: '架構'
   doorkeeper:

@@ -188,7 +188,8 @@ module API
                         writable: writable,
                         min_length: cf_min_length(custom_field),
                         max_length: cf_max_length(custom_field),
-                        regular_expression: cf_regexp(custom_field)
+                        regular_expression: cf_regexp(custom_field),
+                        options: cf_options(custom_field)
         end
 
         def path_method_for(custom_field)
@@ -303,7 +304,10 @@ module API
                                  represented.project_id.to_s
                                end
 
-            filters = static_filters << { member: { operator: '=', values: [project_id_value.to_s] } }
+            # Careful to not alter the static_filters object here.
+            # It is made available in the closure (which is class level) and would thus
+            # keep the appended filters between requests.
+            filters = static_filters + [{ member: { operator: '=', values: [project_id_value.to_s] } }]
 
             api_v3_paths.path_for(:principals, filters: filters, page_size: 0)
           }
@@ -319,6 +323,12 @@ module API
 
         def cf_regexp(custom_field)
           custom_field.regexp unless custom_field.regexp.blank?
+        end
+
+        def cf_options(custom_field)
+          {
+            rtl: ("true" if custom_field.content_right_to_left)
+          }
         end
 
         def list_schemas_values_callback(custom_field)
