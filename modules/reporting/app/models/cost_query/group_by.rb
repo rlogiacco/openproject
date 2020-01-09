@@ -40,7 +40,8 @@ class CostQuery::GroupBy < Report::GroupBy
       CostQuery::GroupBy::AssignedToId,
       CostQuery::GroupBy::CategoryId,
       CostQuery::GroupBy::StatusId,
-      *CostQuery::GroupBy::CustomFieldEntries.all
+      *CostQuery::GroupBy::CustomFieldEntries.all,
+      *CostQuery::GroupBy::UserCustomFieldEntries.all
     ]
   end
 end
