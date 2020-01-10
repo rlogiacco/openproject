@@ -84,6 +84,7 @@ module CostQuery::UserCustomFieldMixin
   end
 
   def prepare(field, class_name)
+    logger = Rails.logger
     logger.info "F #{field} C #{class_name} T #{table_name}"
     @custom_field = field
     @class_name = class_name
