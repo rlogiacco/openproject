@@ -17,7 +17,7 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #++
 
-class CostQuery::GroupBy::CustomFieldEntries < Report::GroupBy::Base
+class CostQuery::GroupBy::UserCustomFieldEntries < Report::GroupBy::Base
   applies_for :label_work_package_attributes
   extend CostQuery::UserCustomFieldMixin
   on_prepare { group_fields table_name }
