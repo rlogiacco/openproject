@@ -85,11 +85,12 @@ module CostQuery::UserCustomFieldMixin
 
   def prepare(field, class_name)
     logger = Rails.logger
-    logger.info "F #{field} C #{class_name} T #{table_name}"
+    logger.info "F #{field} C #{class_name}"
     @custom_field = field
     @class_name = class_name
     dont_inherit :group_fields
     db_field table_name
+    logger.info "T #{table_name}"
     if field.list? && all_values_int?(field)
       join_table list_join_table(field)
     else
